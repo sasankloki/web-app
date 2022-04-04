@@ -10,7 +10,7 @@ pipeline{
 	    stage('gitclone') {
 
 			steps {
-				git 'https://github.com/sasankloki/web-app'
+				git 'https://github.com/sasankloki/web-app.git'
 			}
 		}
 
