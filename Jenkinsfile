@@ -1,45 +1,40 @@
-pipeline{
+pipeline {
 
+  environment {
+    registry = "sasankloki/webapp:1"
+    dockerImage = ""
+  }
 
-	environment {
-		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
-	}
+  agent any
 
-	stages {
-	    
-	    stage('gitclone') {
+  stages {
 
-			steps {
-				git 'https://github.com/sasankloki/web-app.git'
-			}
-		}
+    stage('Checkout Source') {
+      steps {
+        git 'https://github.com/sasankloki/web-app.git'
+      }
+    }
 
-		stage('Build') {
+    stage('Build image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
 
-			steps {
-				sh 'docker build -t sasankloki/webapp:1 .'
-			}
-		}
+    stage('Push Image') {
+      steps{
+        script {
+          docker.withRegistry( "" ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
 
-		stage('Login') {
+    
 
-			steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-			}
-		}
-
-		stage('Push') {
-
-			steps {
-				sh 'docker push sasankloki/webapp:1'
-			}
-		}
-	}
-
-	post {
-		always {
-			sh 'docker logout'
-		}
-	}
+  }
 
 }
