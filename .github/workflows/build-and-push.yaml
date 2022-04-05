@@ -32,7 +32,7 @@ jobs:
         with:
           context: .
           push: true
-          file: ./tempdir/Dockerfile
+          file: ./Dockerfile
           tags: user/app:latest
         
         
