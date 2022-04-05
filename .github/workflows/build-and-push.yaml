@@ -23,7 +23,7 @@ jobs:
         with:
           registry: webapp0827.azurecr.io
           username: webapp0827
-          password: ${{ secret.sasank }}
+          password: ${{ secrets.sasank }}
 
     
 
