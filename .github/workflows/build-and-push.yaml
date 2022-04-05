@@ -42,6 +42,6 @@ jobs:
       with:
         push: true
         context: .
-        file: ./temdir/Dockerfile
+        file: ./webapp/temdir/Dockerfile
         tags: ${{ env.IMAGE }}:${{ steps.prep.outputs.BUILD_ID }}
         
